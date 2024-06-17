@@ -1,0 +1,70 @@
+module pl {
+    module edu {
+        module pja {
+            module sri {
+                module kpodgorski {
+                    module clinic_management {
+                        struct Patient {
+                            string id;
+                            string firstName;
+                            string lastName;
+                            string dateOfBirth;
+                            string medicalHistory;
+                        };
+
+                        struct Appointment {
+                            string id;
+                            string patientId;
+                            string date;
+                            string time;
+                            string doctor;
+                        };
+
+                        typedef sequence<string> MedicationList;
+
+                        struct Prescription {
+                            string id;
+                            string patientId;
+                            MedicationList medications;
+                        };
+
+                        exception AppointmentConflict {
+                            string message;
+                        };
+
+                        exception PatientNotFound {
+                            string message;
+                        };
+
+                        exception AppointmentNotFound {
+                                string message;
+                        };
+
+                        interface Management {
+                            void registerPatient(in Patient patientData)
+                                raises (PatientNotFound);
+
+                            void updatePatient(in Patient patientData)
+                                    raises (PatientNotFound);
+
+                            void deletePatient(in string patientId)
+                                raises (PatientNotFound);
+
+                            void scheduleAppointment(in Appointment appointmentData)
+                                raises (AppointmentConflict);
+
+                            void cancelAppointment(in string appointmentId)
+                                raises (AppointmentNotFound);
+
+                            void issuePrescription(in Prescription prescriptionData)
+                                raises (PatientNotFound);
+
+                            Patient getPatient(in string patientId)
+                                raises (PatientNotFound);
+                        };
+                    };
+                };
+            };
+        };
+    };
+};
